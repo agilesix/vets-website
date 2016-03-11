@@ -18,6 +18,24 @@ class HealthCareApp extends React.Component {
     this.getNextUrl = this.getNextUrl.bind(this);
 
     this.state = {
+      formProgress: {
+        introduction: {
+          complete: true,
+          triggerValidation: false
+        },
+        'personal-information': {
+          'name-and-general-information': {
+            complete: false,
+            triggerValidation: false
+          }
+        },
+        'financial-assessment': {
+          'financial-disclosure': {
+            complete: false,
+            triggerValidation: false
+          }
+        }
+      },
       applicationData: {
         introduction: {},
 
@@ -214,7 +232,19 @@ class HealthCareApp extends React.Component {
   }
 
   handleContinue() {
-    hashHistory.push(this.getNextUrl());
+    const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+    const validationPath = statePath.slice();
+    const sectionState = _.get(this.state.formProgress, statePath);
+    const newFormProgress = Object.assign({}, this.state.formProgress);
+
+    validationPath.push('triggerValidation');
+    _.set(newFormProgress, validationPath, true);
+
+    this.setState({ formProgress: newFormProgress }, () => {
+      if (sectionState.complete === true) {
+        hashHistory.push(this.getNextUrl());
+      } 
+    });
   }
 
   render() {
@@ -230,6 +260,7 @@ class HealthCareApp extends React.Component {
       children = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, {
           data: _.get(this.state.applicationData, statePath),
+          progress: _.get(this.state.formProgress, statePath),
           onStateChange: (subfield, update) => {
             this.publishStateChange(statePath.concat(subfield), update);
           }
