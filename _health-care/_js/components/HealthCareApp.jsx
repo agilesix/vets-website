@@ -241,6 +241,8 @@ class HealthCareApp extends React.Component {
     _.set(newFormProgress, validationPath, true);
 
     this.setState({ formProgress: newFormProgress }, () => {
+      // TODO: pass down that button was clicked to questions and conditionally run validations
+      // on the state of triggerValidation. If all fields valid, update complete and pass back up here.
       if (sectionState.complete === true) {
         hashHistory.push(this.getNextUrl());
       } 
