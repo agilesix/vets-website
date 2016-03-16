@@ -16,6 +16,7 @@ class HealthCareApp extends React.Component {
     this.publishStateChange = this.publishStateChange.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
     this.getNextUrl = this.getNextUrl.bind(this);
+    this.resetNullValues = this.resetNullValues.bind(this);
 
     this.state = {
       // formProgress: {
@@ -228,6 +229,18 @@ class HealthCareApp extends React.Component {
     this.setState({ applicationData: newApplicationData });
   }
 
+  resetNullValues(objectData) {
+    _.forIn(objectData, function(value,key) {
+      if (value === null) {
+        _.set(x, key, '');
+      } else if (typeof(value) === 'object') {
+        this.resetNullValues(key);
+      }
+    });
+
+    return objectData;
+  }
+
   handleContinue() {
     // const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
     // const validationPath = statePath.slice();
@@ -247,10 +260,9 @@ class HealthCareApp extends React.Component {
     const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
     let currentSectionData = _.get(this.state.applicationData, statePath);
 
+    this.resetNullValues(currentSectionData);
 
-
-    class InvalidValueClass {}
-    const InvalidValue = new InvalidValueClass();
+    hashHistory.push(this.getNextUrl());
   }
 
   render() {
