@@ -27,13 +27,13 @@ describe('<DateInput>', () => {
 
     xit('onValueChange is required', () => {
       SkinDeep.shallowRender(
-        <DateInput value={{ day:1, month:12, year:2010 }}/>);
+        <DateInput value={{ day: 1, month: 12, year: 2010 }}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `DateInput`/);
     });
 
     it('onValueChange must be a func', () => {
       SkinDeep.shallowRender(
-        <DateInput value={{ day:1, month:12, year:2010 }} onValueChange/>);
+        <DateInput value={{ day: 1, month: 12, year: 2010 }} onValueChange/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `DateInput`, expected `function`/);
     });
   });
@@ -42,14 +42,14 @@ describe('<DateInput>', () => {
     it('no error styles when date is valid', () => {
       // Smarch is not a real month.
       const tree = SkinDeep.shallowRender(
-        <DateInput value={{ day:1, month:12, year:2010 }} onValueChange={(_update) => {}}/>);
+        <DateInput value={{ day: 1, month: 12, year: 2010 }} onValueChange={(_update) => {}}/>);
       expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
       expect(tree.everySubTree('.usa-input-error-label')).to.have.lengthOf(0);
     });
 
     it('has error styles when date is invalid', () => {
       const tree = SkinDeep.shallowRender(
-        <DateInput value={{ day:1, month:12, year:'' }} onValueChange={(_update) => {}}/>);
+        <DateInput value={{ day: 1, month: 12, year: '' }} onValueChange={(_update) => {}}/>);
       expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
       expect(tree.everySubTree('.usa-input-error-label')).to.have.lengthOf(3);
     });
@@ -62,7 +62,7 @@ describe('<DateInput>', () => {
       const updatePromise = new Promise((resolve, _reject) => {
         dateInput = ReactTestUtils.renderIntoDocument(
           <DateInput
-              value={{ day:1, month:2, year:2010 }}
+              value={{ day: 1, month: 2, year: 2010 }}
               onValueChange={(update) => { resolve(update); }}/>
         );
       });
@@ -79,7 +79,7 @@ describe('<DateInput>', () => {
       const updatePromise = new Promise((resolve, _reject) => {
         dateInput = ReactTestUtils.renderIntoDocument(
           <DateInput
-              value={{ day:1, month:2, year:2010 }}
+              value={{ day: 1, month: 2, year: 2010 }}
               onValueChange={(update) => { resolve(update); }}/>
         );
       });
@@ -96,7 +96,7 @@ describe('<DateInput>', () => {
       const updatePromise = new Promise((resolve, _reject) => {
         dateInput = ReactTestUtils.renderIntoDocument(
           <DateInput
-              value={{ day:1, month:2, year:2010 }}
+              value={{ day: 1, month: 2, year: 2010 }}
               onValueChange={(update) => { resolve(update); }}/>
         );
       });
@@ -110,7 +110,7 @@ describe('<DateInput>', () => {
 
   it('has sane looking features', () => {
     const tree = SkinDeep.shallowRender(
-      <DateInput value={{ day:1, month:12, year:2010 }} onValueChange={(_update) => {}}/>);
+      <DateInput value={{ day: 1, month: 12, year: 2010 }} onValueChange={(_update) => {}}/>);
     expect(tree.everySubTree('input')).to.have.lengthOf(3);
   });
 });

@@ -58,6 +58,26 @@ function isValidAddress(street, city, country, state, zipcode) {
   return true;
 }
 
+function isValidNameAndGeneralInformation(data) {
+  return this.isNotBlank(data.fullName.first) &&
+      this.isValidName(data.fullName.first) &&
+      (isBlank(data.fullName.middle) || isValidName(data.fullName.middle)) &&
+      this.isNotBlank(data.fullName.last) &&
+      this.isValidName(data.fullName.last) &&
+      this.isValidSSN(data.socialSecurityNumber) &&
+      this.isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
+}
+
+function isValidSection(sectionPath, sectionData) {
+  const sectionName = sectionPath[sectionPath.length - 1];
+  switch (sectionName) {
+    case 'name-and-general-information':
+      return this.isValidNameAndGeneralInformation(sectionData);
+    default:
+      return true;
+  }
+}
+
 export {
   isBlank,
   isNotBlank,
@@ -67,5 +87,7 @@ export {
   isValidMonetaryValue,
   isValidPhone,
   isValidEmail,
-  isValidAddress
+  isValidAddress,
+  isValidNameAndGeneralInformation,
+  isValidSection
 };

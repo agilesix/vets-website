@@ -7,6 +7,8 @@ import ContinueButton from './ContinueButton';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 
+import * as validationFunctions from '../utils/validations';
+
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
 
@@ -213,10 +215,10 @@ class HealthCareApp extends React.Component {
 
   resetNullValues(objectData) {
     const context = this;
-    _.forIn(objectData, function(value,key) {
+    _.forIn(objectData, (value, key) => {
       if (value === null) {
         _.set(objectData, key, '');
-      } else if (typeof(value) === 'object') {
+      } else if (typeof (value) === 'object') {
         context.resetNullValues(value);
       }
     });
@@ -225,16 +227,14 @@ class HealthCareApp extends React.Component {
   }
 
   handleContinue() {
-    const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
-    let currentSectionData = _.get(this.state.applicationData, statePath);
+    const sectionPath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+    const sectionData = _.get(this.state.applicationData, sectionPath);
 
-    this.resetNullValues(currentSectionData);
+    this.resetNullValues(sectionData);
 
     this.setState({}, () => {
-      console.log(currentSectionData);
-
-      if () {
-        // hashHistory.push(this.getNextUrl());
+      if (validationFunctions.isValidSection(sectionPath, sectionData)) {
+        hashHistory.push(this.getNextUrl());
       }
     });
   }
@@ -252,7 +252,6 @@ class HealthCareApp extends React.Component {
       children = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, {
           data: _.get(this.state.applicationData, statePath),
-          // progress: _.get(this.state.formProgress, statePath),
           onStateChange: (subfield, update) => {
             this.publishStateChange(statePath.concat(subfield), update);
           }
