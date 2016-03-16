@@ -230,11 +230,12 @@ class HealthCareApp extends React.Component {
   }
 
   resetNullValues(objectData) {
+    const context = this;
     _.forIn(objectData, function(value,key) {
       if (value === null) {
-        _.set(x, key, '');
+        _.set(objectData, key, '');
       } else if (typeof(value) === 'object') {
-        this.resetNullValues(key);
+        context.resetNullValues(value);
       }
     });
 
