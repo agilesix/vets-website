@@ -19,24 +19,6 @@ class HealthCareApp extends React.Component {
     this.resetNullValues = this.resetNullValues.bind(this);
 
     this.state = {
-      // formProgress: {
-      //   introduction: {
-      //     complete: true,
-      //     triggerValidation: false
-      //   },
-      //   'personal-information': {
-      //     'name-and-general-information': {
-      //       complete: false,
-      //       triggerValidation: false
-      //     }
-      //   },
-      //   'financial-assessment': {
-      //     'financial-disclosure': {
-      //       complete: false,
-      //       triggerValidation: false
-      //     }
-      //   }
-      // },
       applicationData: {
         introduction: {},
 
@@ -243,27 +225,18 @@ class HealthCareApp extends React.Component {
   }
 
   handleContinue() {
-    // const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
-    // const validationPath = statePath.slice();
-    // const sectionState = _.get(this.state.formProgress, statePath);
-    // const newFormProgress = Object.assign({}, this.state.formProgress);
-
-    // validationPath.push('triggerValidation');
-    // _.set(newFormProgress, validationPath, true);
-
-    // this.setState({ formProgress: newFormProgress }, () => {
-    //   // TODO: pass down that button was clicked to questions and conditionally run validations
-    //   // on the state of triggerValidation. If all fields valid, update complete and pass back up here.
-    //   if (sectionState.complete === true) {
-    //     hashHistory.push(this.getNextUrl());
-    //   } 
-    // });
     const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
     let currentSectionData = _.get(this.state.applicationData, statePath);
 
     this.resetNullValues(currentSectionData);
 
-    hashHistory.push(this.getNextUrl());
+    this.setState({}, () => {
+      console.log(currentSectionData);
+
+      if () {
+        // hashHistory.push(this.getNextUrl());
+      }
+    });
   }
 
   render() {
