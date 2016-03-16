@@ -24,7 +24,7 @@ class DateInput extends React.Component {
   }
 
   render() {
-    const isValid = isValidDate(this.props.day, this.props.month, this.props.year);
+    const isValid = isValidDate(this.props.value.day, this.props.value.month, this.props.value.year);
 
     return (
       <div className={isValid ? undefined : 'usa-input-error'}>
@@ -43,11 +43,13 @@ class DateInput extends React.Component {
                 pattern="0?[1-9]|1[012]"
                 ref={(c) => { this._month = c; }}
                 type="number"
-                value={this.props.month}
+                value={this.props.value.month}
                 onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-day">
-            <label htmlFor={`${this.id}-day`}>Day</label>
+            <label
+                className={isValid ? undefined : 'usa-input-error-label'} 
+                htmlFor={`${this.id}-day`}>Day</label>
             <input
                 className="usa-form-control"
                 id={`${this.id}-day`}
@@ -56,11 +58,13 @@ class DateInput extends React.Component {
                 pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
                 ref={(c) => { this._day = c; }}
                 type="number"
-                value={this.props.day}
+                value={this.props.value.day}
                 onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-year">
-            <label htmlFor={`${this.id}-year`}>Year</label>
+            <label 
+                className={isValid ? undefined : 'usa-input-error-label'}
+                htmlFor={`${this.id}-year`}>Year</label>
             <input
                 className="usa-form-control"
                 id={`${this.id}-year`}
@@ -69,7 +73,7 @@ class DateInput extends React.Component {
                 pattern="[0-9]{4}"
                 ref={(c) => { this._year = c; }}
                 type="number"
-                value={this.props.year}
+                value={this.props.value.year}
                 onChange={this.handleChange}/>
           </div>
         </div>
@@ -79,9 +83,11 @@ class DateInput extends React.Component {
 }
 
 DateInput.propTypes = {
-  day: React.PropTypes.number.isRequired,
-  month: React.PropTypes.number.isRequired,
-  year: React.PropTypes.number.isRequired,
+  value: React.PropTypes.shape({
+    day: React.PropTypes.number,
+    month: React.PropTypes.number,
+    year: React.PropTypes.number
+  }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };
 

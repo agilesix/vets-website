@@ -37,9 +37,7 @@ class NameAndGeneralInfoSection extends React.Component {
               <h4>Date of Birth</h4>
               <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
               <DateInput
-                  day={this.props.data.dateOfBirth.day}
-                  month={this.props.data.dateOfBirth.month}
-                  year={this.props.data.dateOfBirth.year}
+                  value={this.props.data.dateOfBirth}
                   onValueChange={(update) => {this.props.onStateChange('dateOfBirth', update);}}/>
             </div>
           </div>

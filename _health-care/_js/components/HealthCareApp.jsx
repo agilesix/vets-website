@@ -18,44 +18,41 @@ class HealthCareApp extends React.Component {
     this.getNextUrl = this.getNextUrl.bind(this);
 
     this.state = {
-      formProgress: {
-        introduction: {
-          complete: true,
-          triggerValidation: false
-        },
-        'personal-information': {
-          'name-and-general-information': {
-            complete: false,
-            triggerValidation: false
-          }
-        },
-        'financial-assessment': {
-          'financial-disclosure': {
-            complete: false,
-            triggerValidation: false
-          }
-        }
-      },
+      // formProgress: {
+      //   introduction: {
+      //     complete: true,
+      //     triggerValidation: false
+      //   },
+      //   'personal-information': {
+      //     'name-and-general-information': {
+      //       complete: false,
+      //       triggerValidation: false
+      //     }
+      //   },
+      //   'financial-assessment': {
+      //     'financial-disclosure': {
+      //       complete: false,
+      //       triggerValidation: false
+      //     }
+      //   }
+      // },
       applicationData: {
         introduction: {},
 
         'personal-information': {
           'name-and-general-information': {
             fullName: {
-              first: 'William',
-              middle: '',
-              last: 'Shakespeare',
-              suffix: '',
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
             },
-
-            mothersMaidenName: 'Arden',
-
-            socialSecurityNumber: '999-99-9999',
-
+            mothersMaidenName: null,
+            socialSecurityNumber: null,
             dateOfBirth: {
-              month: 1,
-              day: 15,
-              year: 1997,
+              month: null,
+              day: null,
+              year: null,
             }
           },
 
@@ -232,21 +229,28 @@ class HealthCareApp extends React.Component {
   }
 
   handleContinue() {
+    // const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+    // const validationPath = statePath.slice();
+    // const sectionState = _.get(this.state.formProgress, statePath);
+    // const newFormProgress = Object.assign({}, this.state.formProgress);
+
+    // validationPath.push('triggerValidation');
+    // _.set(newFormProgress, validationPath, true);
+
+    // this.setState({ formProgress: newFormProgress }, () => {
+    //   // TODO: pass down that button was clicked to questions and conditionally run validations
+    //   // on the state of triggerValidation. If all fields valid, update complete and pass back up here.
+    //   if (sectionState.complete === true) {
+    //     hashHistory.push(this.getNextUrl());
+    //   } 
+    // });
     const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
-    const validationPath = statePath.slice();
-    const sectionState = _.get(this.state.formProgress, statePath);
-    const newFormProgress = Object.assign({}, this.state.formProgress);
+    let currentSectionData = _.get(this.state.applicationData, statePath);
 
-    validationPath.push('triggerValidation');
-    _.set(newFormProgress, validationPath, true);
 
-    this.setState({ formProgress: newFormProgress }, () => {
-      // TODO: pass down that button was clicked to questions and conditionally run validations
-      // on the state of triggerValidation. If all fields valid, update complete and pass back up here.
-      if (sectionState.complete === true) {
-        hashHistory.push(this.getNextUrl());
-      } 
-    });
+
+    class InvalidValueClass {}
+    const InvalidValue = new InvalidValueClass();
   }
 
   render() {
@@ -262,7 +266,7 @@ class HealthCareApp extends React.Component {
       children = React.Children.map(this.props.children, (child) => {
         return React.cloneElement(child, {
           data: _.get(this.state.applicationData, statePath),
-          progress: _.get(this.state.formProgress, statePath),
+          // progress: _.get(this.state.formProgress, statePath),
           onStateChange: (subfield, update) => {
             this.publishStateChange(statePath.concat(subfield), update);
           }
