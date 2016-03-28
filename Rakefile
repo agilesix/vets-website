@@ -32,8 +32,8 @@ task :bootstrap do
   sh "gem install bundler --no-rdoc --no-ri"
 
   # Install npm.
-  sh "brew update"
-  sh "brew install npm"
+  #sh "brew update"
+  #sh "brew install npm"
 
   # Continue with install.
   Rake::Task[:install].invoke
@@ -126,6 +126,12 @@ task :heroku_serve, :port do |t, args|
   raise "heroku_serve needs port argument" if args[:port].empty?
   Rake::Task[:webpack_dev].invoke
   sh "bundle exec jekyll serve -P #{args[:port]}"
+end
+
+desc "Server production after building"
+task :serveprod do
+  Rake::Task[:build_prod].invoke
+  sh "bundle exec jekyll serve --config _config.yml,_config_production.yml"
 end
 
 desc "Serve the website"
